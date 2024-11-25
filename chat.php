@@ -260,9 +260,27 @@ $contacts = $stmt->fetchAll();
         </div>
         <div class="messages" id="messages"></div>
         <div class="typing-indicator" id="typingIndicator">Typing...</div>
-        <div class="input-area" id="inputArea">
-            <button class="emoji-button">&#128515;</button>
-            <button class="attachment-button">&#128206;</button>
+        <div class="input-area" id="inputArea" style="display: none;">
+            <button class="emoji-button" onclick="toggleEmojiPicker()">&#128515;</button>
+            <div id="emojiPicker" style="display: none;">
+                <span onclick="insertEmoji('😀')">😀</span>
+                <span onclick="insertEmoji('😂')">😂</span>
+                <span onclick="insertEmoji('😍')">😍</span>
+                <span onclick="insertEmoji('😢')">😢</span>
+                <span onclick="insertEmoji('😎')">😎</span>
+            </div>
+            <button class="attachment-button" onclick="toggleAttachmentMenu()">&#128206;</button>
+            
+            <!-- Attachment Menu -->
+            <div id="attachmentMenu" style="display: none;">
+                <div onclick="sendAttachment('document')">Document</div>
+                <div onclick="sendAttachment('camera')">Camera</div>
+                <div onclick="sendAttachment('gallery')">Gallery</div>
+                <div onclick="sendAttachment('audio')">Audio</div>
+                <div onclick="sendAttachment('location')">Location</div>
+                <div onclick="sendAttachment('contact')">Contact</div>
+            </div>
+
             <textarea id="messageInput" placeholder="Type a message..." oninput="notifyTyping()"></textarea>
             <button class="send-button" onclick="sendMessage()">&#9658;</button>
         </div>
@@ -372,6 +390,28 @@ $contacts = $stmt->fetchAll();
                 sendMessage();
             }
         });
+
+        function toggleEmojiPicker() {
+            const emojiPicker = document.getElementById('emojiPicker');
+            emojiPicker.style.display = emojiPicker.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function insertEmoji(emoji) {
+            const messageInput = document.getElementById('messageInput');
+            messageInput.value += emoji;
+        }
+
+        function toggleAttachmentMenu() {
+            const attachmentMenu = document.getElementById('attachmentMenu');
+            attachmentMenu.style.display = attachmentMenu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function sendAttachment(type) {
+            // Handle the attachment based on the type
+            console.log(`Selected attachment type: ${type}`);
+            // You can implement the logic to handle each attachment type here
+            toggleAttachmentMenu(); // Hide the menu after selection
+        }
     </script>
 </body>
 </html>
